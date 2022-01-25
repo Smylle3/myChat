@@ -1,6 +1,7 @@
 import appConfig from "../config.json";
 import GlobalStyle from "../GlobalStyles";
 import { Box, Button, Text, TextField, Image } from "@skynexui/components";
+import { useState } from "react";
 
 function Titulo(props) {
   const Tag = props.tag || "h1";
@@ -18,7 +19,11 @@ function Titulo(props) {
 }
 
 export default function PaginaInicial() {
-  const username = "smylle3";
+  const [username, setUsername] = useState("");
+
+  const handleChange = (event)=>{
+    setUsername(event.target.value);
+  };
 
   return (
     <>
@@ -94,9 +99,17 @@ export default function PaginaInicial() {
                 borderRadius: '1000px'
               }}
             >
-              /{username}
+              <a href={`https://github.com/${username}`} target=".blank">/{username}</a>
+              <style jsx>{`
+                a{
+                  color: #aaa;
+                  text-decoration: inherit;
+                }
+              `}</style>
             </Text>
             <TextField
+              value={username}
+              onChange={handleChange}
               label="Insert your github user"
               fullWidth
               textFieldColors={{
