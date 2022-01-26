@@ -1,33 +1,67 @@
 {
-    "name": "Your social media's conversation.",
-    "theme": {
-      "colors": {
-        "primary": {
-          "050": "#DAE3E5",
-          "100": "#D3DFE7",
-          "200": "#CBDAE8",
-          "300": "#BBD1EA",
-          "400": "#AECCEA",
-          "500": "#A1C6EA",
-          "600": "#79A2D3",
-          "700": "#507DBC",
-          "800": "#2A4366",
-          "900": "#04080F"
-        },
-        "neutrals": {
-          "000": "#FFFFFF",
-          "050": "#F5F7FA",
-          "100": "#E4E7EB",
-          "200": "#CBD2D9",
-          "300": "#9AA5B1",
-          "400": "#52667A",
-          "500": "#313D49",
-          "600": "#29333D",
-          "700": "#212931",
-          "800": "#181F25",
-          "900": "#101418",
-          "999": "#080A0C"
-        }
+  "name": "Your social media's conversation.",
+  "theme": {
+    "colors": {
+      "primary": {
+        "050": "#DAE3E5",
+        "100": "#D3DFE7",
+        "200": "#CBDAE8",
+        "300": "#BBD1EA",
+        "400": "#AECCEA",
+        "500": "#A1C6EA",
+        "600": "#79A2D3",
+        "700": "#507DBC",
+        "800": "#2A4366",
+        "900": "#04080F"
+      },
+      "neutrals": {
+        "000": "#FFFFFF",
+        "050": "#F5F7FA",
+        "100": "#E4E7EB",
+        "200": "#CBD2D9",
+        "300": "#9AA5B1",
+        "400": "#52667A",
+        "500": "#313D49",
+        "600": "#29333D",
+        "700": "#212931",
+        "800": "#181F25",
+        "900": "#101418",
+        "999": "#080A0C"
       }
     }
+  },
+  "defautUser": {
+    "login": null,
+    "id": 0,
+    "node_id": null,
+    "avatar_url": null,
+    "gravatar_id": null,
+    "url": null,
+    "html_url": null,
+    "followers_url": null,
+    "following_url": null,
+    "gists_url": null,
+    "starred_url": null,
+    "subscriptions_url": null,
+    "organizations_url": null,
+    "repos_url": null,
+    "events_url": null,
+    "received_events_url": null,
+    "type": "User",
+    "site_admin": false,
+    "name": null,
+    "company": null,
+    "blog": null,
+    "location": null,
+    "email": null,
+    "hireable": null,
+    "bio": null,
+    "twitter_username": null,
+    "public_repos": 0,
+    "public_gists": 0,
+    "followers": 0,
+    "following": 0,
+    "created_at": null,
+    "updated_at": null
+  }
 }

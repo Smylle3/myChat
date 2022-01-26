@@ -1,7 +1,8 @@
 import appConfig from "../config.json";
 import GlobalStyle from "../GlobalStyles";
 import { Box, Button, Text, TextField, Image } from "@skynexui/components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Titulo(props) {
   const Tag = props.tag || "h1";
@@ -20,10 +21,28 @@ function Titulo(props) {
 
 export default function PaginaInicial() {
   const [username, setUsername] = useState("");
+  const [user, setUser] = useState(appConfig.defautUser);
 
-  const handleChange = (event)=>{
+  useEffect(() => {
+    axios
+      .get(`https://api.github.com/users/${username}`)
+      .then((response) => {
+        const data = response.data;
+        if (data.login != null) {
+          setUser(data);
+        }
+      })
+      .catch((err) => {
+        setUser(appConfig.defautUser);
+        return;
+      });
+  }, [username]);
+
+  const handleChange = (event) => {
     setUsername(event.target.value);
   };
+
+  console.log(user.login);
 
   return (
     <>
@@ -78,35 +97,90 @@ export default function PaginaInicial() {
             >
               {appConfig.name}
             </Text>
-            <Image
-              src={`https://github.com/${username}.png`}
-              styleSheet={{
-                borderRadius: "50%",
-                marginBottom: "14px",
-                width: "150px",
-                border: "3px solid",
-                borderColor: appConfig.theme.colors.primary["800"],
-                boxShadow: "3px 3px 10px 1px rgb(0 0 0 / 20%)",
-              }}
-            />
-            <Text
-              variant="body4"
-              styleSheet={{
-                marginBottom: "22px",
-                color: appConfig.theme.colors.primary["500"],
-                backgroundColor: appConfig.theme.colors.primary["800"],
-                padding: '3px 10px',
-                borderRadius: '1000px'
-              }}
-            >
-              <a href={`https://github.com/${username}`} target=".blank">/{username}</a>
-              <style jsx>{`
-                a{
-                  color: #aaa;
-                  text-decoration: inherit;
-                }
-              `}</style>
-            </Text>
+            {user.login != null ? (
+              <>
+                <Image
+                  src={`https://github.com/${username}.png`}
+                  styleSheet={{
+                    borderRadius: "50%",
+                    marginBottom: "14px",
+                    width: "150px",
+                    border: "3px solid",
+                    borderColor: appConfig.theme.colors.primary["800"],
+                    boxShadow: "3px 3px 10px 1px rgb(0 0 0 / 20%)",
+                  }}
+                />
+                <Text
+                  variant="body4"
+                  styleSheet={{
+                    marginBottom: "22px",
+                    color: appConfig.theme.colors.primary["500"],
+                    backgroundColor: appConfig.theme.colors.primary["800"],
+                    padding: "3px 10px",
+                    borderRadius: "1000px",
+                  }}
+                >
+                  <a href={`https://github.com/${username}`} target=".blank">
+                    /{username}
+                  </a>
+                  <style jsx>{`
+                    a {
+                      color: ${appConfig.theme.colors.primary["500"]};
+                      text-decoration: inherit;
+                    }
+                  `}</style>
+                </Text>
+              </>
+            ) : (
+              <>
+                <Box
+                  styleSheet={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+
+                    marginBottom: "14px",
+                    boxShadow: "3px 3px 10px 1px rgb(0 0 0 / 20%)",
+
+                    borderRadius: "50%",
+                    width: "150px",
+                    height: "150px",
+                    border: "3px solid",
+                    backgroundColor: appConfig.theme.colors.primary["800"],
+                    borderColor: appConfig.theme.colors.primary["800"],
+                  }}
+                >
+                  <Text
+                    styleSheet={{
+                      textAlign: "center",
+                      color: appConfig.theme.colors.primary["500"],
+                    }}
+                  >
+                    Don't have a github account? Create now
+                  </Text>
+                </Box>
+                <Text
+                  variant="body4"
+                  styleSheet={{
+                    marginBottom: "22px",
+                    color: appConfig.theme.colors.primary["500"],
+                    backgroundColor: appConfig.theme.colors.primary["800"],
+                    padding: "3px 10px",
+                    borderRadius: "1000px",
+                  }}
+                >
+                  <a href={`https://github.com/signup`} target=".blank">
+                    github.com
+                  </a>
+                  <style jsx>{`
+                    a {
+                      color: ${appConfig.theme.colors.primary["500"]};
+                      text-decoration: inherit;
+                    }
+                  `}</style>
+                </Text>
+              </>
+            )}
             <TextField
               value={username}
               onChange={handleChange}
