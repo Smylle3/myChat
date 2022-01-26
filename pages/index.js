@@ -62,7 +62,7 @@ export default function PaginaInicial() {
 
             borderRadius: "20px",
             backgroundColor: appConfig.theme.colors.primary["500"],
-            //backgroundImage:"url(https://wallpaper.dog/large/10765266.jpg)",
+            backgroundImage:"url(https://wallpapercave.com/wp/wp2666508.jpg)",
             boxShadow: "5px 5px 5px 1px rgb(0 0 0 / 50%)",
             width: "100%",
 
@@ -84,6 +84,7 @@ export default function PaginaInicial() {
 
               border: "3px solid",
               borderColor: appConfig.theme.colors.primary["800"],
+              backgroundColor: appConfig.theme.colors.primary["500"],
               borderRadius: "20px",
             }}
           >
