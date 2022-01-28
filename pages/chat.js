@@ -35,6 +35,7 @@ export default function ChatPage() {
           backgroundColor: appConfig.theme.colors.primary["900"],
           boxShadow: "5px 5px 5px 1px rgb(0 0 0 / 50%)",
           width: "100%",
+          height: "93vh",
 
           padding: "20px",
           margin: "20px",
@@ -113,7 +114,7 @@ function MessageList(props) {
         overflowY: "scroll",
         display: "flex",
         flexDirection: "column-reverse",
-        maxHeight: "26em",
+        maxHeight: "100vh",
         flex: 1,
         color: appConfig.theme.colors.neutrals["000"],
         border: "2px solid",
