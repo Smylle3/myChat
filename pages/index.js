@@ -1,27 +1,14 @@
 import appConfig from "../config.json";
-import GlobalStyle from "../GlobalStyles";
 import { Box, Button, Text, TextField, Image } from "@skynexui/components";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-function Titulo(props) {
-  const Tag = props.tag || "h1";
-  return (
-    <>
-      <Tag>{props.children}</Tag>
-      <style jsx>{`
-        ${Tag} {
-          color: ${appConfig.theme.colors.primary["800"]};
-          font-size: ;
-        }
-      `}</style>
-    </>
-  );
-}
+import Titulo from "../components/tittle";
 
 export default function PaginaInicial() {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(appConfig.defautUser);
+  const router = useRouter();
 
   useEffect(() => {
     axios
@@ -46,7 +33,6 @@ export default function PaginaInicial() {
 
   return (
     <>
-      <GlobalStyle />
       <Box
         styleSheet={{
           display: "flex",
@@ -72,6 +58,11 @@ export default function PaginaInicial() {
         >
           <Box
             as="form"
+            onSubmit={function(infosDoEvento){
+              infosDoEvento.preventDefault();
+              console.log("Clicou no botao");
+              router.push("/chat");
+            }}
             styleSheet={{
               display: "flex",
               alignItems: "center",
