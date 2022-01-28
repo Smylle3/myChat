@@ -2,19 +2,45 @@ import { Box, Text, TextField, Image, Button } from "@skynexui/components";
 import React from "react";
 import appConfig from "../config.json";
 import Header from "../components/header";
+import { createClient } from "@supabase/supabase-js";
+import { useEffect } from "react";
+
+const ANON_SUPABASE =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzM5MzA1OCwiZXhwIjoxOTU4OTY5MDU4fQ.x6GhderacXKdaVQbVCsTltqs_w841gzhAgUEgu4xDtU";
+const URL_SUPABASE = "https://pdyiniuqaxuezebmjini.supabase.co";
+const supabaseClient = createClient(URL_SUPABASE, ANON_SUPABASE);
 
 export default function ChatPage() {
   const [mensagem, setMensagem] = React.useState("");
   const [listaDeMensagens, setListaDeMensagens] = React.useState([]);
 
+  useEffect(() => {
+    supabaseClient
+      .from("mensagens")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        console.log("dados da consuta: ", data);
+        console.log("mensagens: ", data.at(0).created_at);
+        setListaDeMensagens(data);
+      });
+  }, []);
+
   function handleNovaMensagem(novaMensagem) {
     const mensagem = {
-      id: listaDeMensagens.length + 1,
-      de: "Smylle3",
-      texto: novaMensagem,
+      //id: listaDeMensagens.length + 1,
+      //created_at: ,
+      remetente: "Smylle3",
+      mensagens: novaMensagem,
     };
 
-    setListaDeMensagens([mensagem, ...listaDeMensagens]);
+    supabaseClient
+      .from("mensagens")
+      .insert([mensagem])
+      .then(({ data }) => {
+        console.log("Mensagem enciada: ", data);
+        setListaDeMensagens([data[0], ...listaDeMensagens]);
+      });
     setMensagem("");
   }
 
@@ -50,53 +76,72 @@ export default function ChatPage() {
             alignItems: "center",
           }}
         >
-          <TextField
-            value={mensagem}
-            onChange={(event) => {
-              const valor = event.target.value;
-              setMensagem(valor);
-            }}
-            onKeyPress={(event) => {
-              console.log(event);
-              if (event.key === "Enter" && event.shiftKey === true) {
-                console.log("Shift pressionado");
-              } else if (event.key === "Enter") {
-                event.preventDefault();
-                if (event.target.value == "") {
-                  console.log("Mensagem vazia");
-                  alert("Mensagem vazia");
-                } else {
-                  event.preventDefault();
-                  handleNovaMensagem(mensagem);
-                }
-              }
-            }}
-            placeholder="Type your message..."
-            type="textarea"
+          <Box
             styleSheet={{
+              display: "flex",
+              alignItems: "space-between",
+              justifyContent: "center ",
+              height: "47px",
+
               width: "100%",
-              resize: "none",
-              border: "0",
               borderRadius: "30px",
-              padding: "6px 20px",
+              padding: "6px 6px 6px 6px",
               backgroundColor: appConfig.theme.colors.neutrals[800],
-              marginRight: "12px",
               color: appConfig.theme.colors.neutrals[200],
             }}
-          />
-          <Button
-            buttonColors={{
-              contrastColor: appConfig.theme.colors.primary[400],
-              mainColor: appConfig.theme.colors.primary[800],
-              mainColorLight: appConfig.theme.colors.primary[900],
-              mainColorStrong: appConfig.theme.colors.primary[700],
-            }}
-            iconName="arrowRight"
-            onClick={(event2) => {
-              event2.preventDefault();
-              handleNovaMensagem(mensagem);
-            }}
-          />
+          >
+            <TextField
+              value={mensagem}
+              onChange={(event) => {
+                const valor = event.target.value;
+                setMensagem(valor);
+              }}
+              onKeyPress={(event) => {
+                console.log(event);
+                if (event.key === "Enter" && event.shiftKey === true) {
+                  console.log("Shift pressionado");
+                } else if (event.key === "Enter") {
+                  event.preventDefault();
+                  if (event.target.value == "") {
+                    console.log("Mensagem vazia");
+                    alert("Mensagem vazia");
+                  } else {
+                    event.preventDefault();
+                    handleNovaMensagem(mensagem);
+                  }
+                }
+              }}
+              placeholder="Type your message..."
+              type="textarea"
+              styleSheet={{
+                width: "90%",
+                height: "34px",
+                resize: "none",
+                border: "0",
+                borderRadius: "30px",
+                backgroundColor: appConfig.theme.colors.neutrals[800],
+                marginRight: "12px",
+                color: appConfig.theme.colors.neutrals[200],
+              }}
+            />
+            <Button
+              buttonColors={{
+                contrastColor: appConfig.theme.colors.primary[400],
+                mainColor: appConfig.theme.colors.primary[800],
+                mainColorLight: appConfig.theme.colors.primary[800],
+                mainColorStrong: appConfig.theme.colors.primary[800],
+              }}
+              styleSheet={{
+                borderRadius: "25px ",
+              }}
+              iconName="FaLevelUpAlt"
+              label="Send"
+              onClick={(event2) => {
+                event2.preventDefault();
+                handleNovaMensagem(mensagem);
+              }}
+            />
+          </Box>
         </Box>
       </Box>
     </Box>
@@ -162,9 +207,9 @@ function MessageList(props) {
                       display: "inline-block",
                       marginRight: "8px",
                     }}
-                    src={`https://github.com/smylle3.png`}
+                    src={`https://github.com/${mensagem.remetente}.png`}
                   />
-                  <Text tag="strong">{mensagem.de}</Text>
+                  <Text tag="strong">{mensagem.remetente}</Text>
                   <Text
                     styleSheet={{
                       fontSize: "10px",
@@ -176,7 +221,7 @@ function MessageList(props) {
                     {Data}
                   </Text>
                 </Box>
-                {mensagem.texto}
+                {mensagem.mensagens}
               </Text>
             </Box>
           </>
