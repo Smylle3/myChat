@@ -70,8 +70,8 @@ export default function PaginaInicial() {
               flexDirection: "column",
 
               height: "100%",
-              padding: "50px",
-              margin: "30px",
+              padding: "30px",
+              margin: "15px",
 
               border: "3px solid",
               borderColor: appConfig.theme.colors.primary["800"],
